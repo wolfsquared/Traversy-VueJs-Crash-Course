@@ -2,16 +2,58 @@
 <div class="container">
 
   <Header title="Task Tracker"/>
+  <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks"/>
 </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
-
+import Tasks from './components/Tasks.vue'
 export default {
   name: 'App',
   components: {
     Header,
+    Tasks
+  },
+  data(){
+
+    return {
+      tasks:[]
+      }
+  },
+  methods: {
+    deleteTask(id){
+      this.tasks = this.tasks.filter((task) =>{
+        return task.id !== id
+      })
+    },
+    toggleReminder(id){
+      this.tasks = this.tasks.map((task)=>{
+        if(task.id === id){
+          return {...task, reminder : !task.reminder}
+        }
+        return task
+      })
+    }
+  },
+  created(){
+    this.tasks=[
+        {id: 1,
+        text: 'Doctors appointment',
+        day: 'march 1st at 1:30pm',
+        reminder: true,
+      },
+      {id: 2,
+        text: 'Doctors appointment',
+        day: 'march 2nd at 1:30pm',
+        reminder: false,
+      },
+      {id: 3,
+        text: 'Doctors appointment',
+        day: 'march 3rd at 1:30pm',
+        reminder: true,
+      },
+      ]
   }
 }
 </script>
